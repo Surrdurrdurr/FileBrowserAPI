@@ -43,7 +43,6 @@ namespace FileBrowserAPI.Controllers
             var result = await FileBrowserModel.UploadFile(file, path);
             if (!result)
                 return BadRequest("Path is not valid.");
-
             return Ok();
         }
 
