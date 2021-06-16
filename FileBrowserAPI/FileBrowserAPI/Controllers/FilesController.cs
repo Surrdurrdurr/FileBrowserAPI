@@ -70,7 +70,16 @@ namespace FileBrowserAPI.Controllers
         {
             var result = FileBrowserModel.DeleteFilteredFiles(regex);
             if (result == null)
-                return BadRequest();
+                return BadRequest("Regex pattern is not valid.");
+            return result.ToArray();
+        }
+
+        [HttpDelete("{regex}/{path}")]
+        public ActionResult<IEnumerable<string>> DeleteFilteredFiles(string regex, string path)
+        {
+            var result = FileBrowserModel.DeleteFilteredFiles(regex, path);
+            if (result == null)
+                return BadRequest("Regex pattern or path are not valid.");
             return result.ToArray();
         }
     }
