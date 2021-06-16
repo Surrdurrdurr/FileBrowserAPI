@@ -50,5 +50,35 @@ namespace FileBrowser.Data.Models
                 return null;
             }
         }
+
+        public static IEnumerable<string> DeleteFilteredFiles(string pattern, string path = DefaultDirectory)
+        {
+            try
+            {
+                var regex = new Regex(pattern);
+                var files = GetAllFiles(path);
+                var filesWithDir = Directory.EnumerateFiles(path);
+
+                var result = new List<string>();
+
+                foreach (var file in files)
+                {
+                    if (regex.IsMatch(file))
+                    {
+                        File.Delete(filesWithDir.FirstOrDefault(f => f.Contains(file)));
+                        result.Add(file);
+                    }
+                }
+                return result;
+            }
+            catch (ArgumentNullException) // If somehow file is deleted manually during foreach
+            {
+                return null;
+            }
+            catch (RegexParseException)
+            {
+                return null;
+            }
+        }
     }
 }
