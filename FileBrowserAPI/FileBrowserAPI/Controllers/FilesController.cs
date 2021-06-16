@@ -24,5 +24,14 @@ namespace FileBrowserAPI.Controllers
             await FileBrowserModel.UploadFile(file);
             return Ok();
         }
+
+        [HttpGet("Filter/{regex}")]
+        public ActionResult<IEnumerable<string>> GetFilteredFiles(string regex)
+        {
+            var result = FileBrowserModel.GetFilteredFiles(regex);
+            if (result == null)
+                return BadRequest();
+            return result.ToArray();
+        }
     }
 }
