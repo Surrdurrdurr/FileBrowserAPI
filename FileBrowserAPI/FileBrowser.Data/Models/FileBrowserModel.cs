@@ -14,9 +14,15 @@ namespace FileBrowser.Data.Models
         public const string DefaultDirectory = @"C:\Files";
         public static IEnumerable<string> GetAllFiles(string path = DefaultDirectory)
         {
-            var files = Directory.EnumerateFiles(path);
-
-            return files.Select(f => Path.GetFileName(f));
+            try
+            {
+                var files = Directory.EnumerateFiles(path);
+                return files.Select(f => Path.GetFileName(f));
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return null;
+            }
         }
 
         public static async Task UploadFile(IFormFile file, string path = DefaultDirectory)

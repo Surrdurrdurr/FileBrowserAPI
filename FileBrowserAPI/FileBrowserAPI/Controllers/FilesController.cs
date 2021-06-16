@@ -18,6 +18,15 @@ namespace FileBrowserAPI.Controllers
             return FileBrowserModel.GetAllFiles().ToArray();
         }
 
+        [HttpGet("{path}")]
+        public ActionResult<IEnumerable<string>> GetAllFiles(string path)
+        {
+            var result = FileBrowserModel.GetAllFiles(path);
+            if (result == null)
+                return BadRequest("Path doesn't exisit.");
+            return result.ToArray();
+        }
+
         [HttpPut]
         public async Task<ActionResult> UploadFile(IFormFile file)
         {
