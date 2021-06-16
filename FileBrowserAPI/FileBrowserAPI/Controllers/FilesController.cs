@@ -33,5 +33,14 @@ namespace FileBrowserAPI.Controllers
                 return BadRequest();
             return result.ToArray();
         }
+
+        [HttpDelete("{regex}")]
+        public ActionResult<IEnumerable<string>> DeleteFilteredFiles(string regex)
+        {
+            var result = FileBrowserModel.DeleteFilteredFiles(regex);
+            if (result == null)
+                return BadRequest();
+            return result.ToArray();
+        }
     }
 }
