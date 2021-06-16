@@ -17,5 +17,12 @@ namespace FileBrowserAPI.Controllers
         {
             return FileBrowserModel.GetAllFiles().ToArray();
         }
+
+        [HttpPut]
+        public async Task<ActionResult> UploadFile(IFormFile file)
+        {
+            await FileBrowserModel.UploadFile(file);
+            return Ok();
+        }
     }
 }
