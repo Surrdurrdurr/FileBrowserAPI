@@ -47,6 +47,8 @@ namespace FileBrowser.Data.Models
             {
                 var regex = new Regex(pattern);
                 var files = GetAllFiles(path);
+                if (files == null)
+                    return null;
 
                 var filteredFiles = new List<string>();
 

@@ -52,7 +52,16 @@ namespace FileBrowserAPI.Controllers
         {
             var result = FileBrowserModel.GetFilteredFiles(regex);
             if (result == null)
-                return BadRequest();
+                return BadRequest("Regex pattern is not valid.");
+            return result.ToArray();
+        }
+
+        [HttpGet("Filter/{regex}/{path}")]
+        public ActionResult<IEnumerable<string>> GetFilteredFiles(string regex, string path)
+        {
+            var result = FileBrowserModel.GetFilteredFiles(regex, path);
+            if (result == null)
+                return BadRequest("Regex pattern or path are not valid.");
             return result.ToArray();
         }
 
