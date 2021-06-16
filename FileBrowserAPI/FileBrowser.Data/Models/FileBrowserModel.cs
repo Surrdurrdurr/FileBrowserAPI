@@ -25,14 +25,20 @@ namespace FileBrowser.Data.Models
             }
         }
 
-        public static async Task UploadFile(IFormFile file, string path = DefaultDirectory)
+        public static async Task<bool> UploadFile(IFormFile file, string path = DefaultDirectory)
         {
             var filePath = Path.Join(path, file.FileName);
+            if (!IsPathValid(filePath))
+                return false;
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
+            return true;
         }
 
         public static IEnumerable<string> GetFilteredFiles(string pattern, string path = DefaultDirectory)
@@ -85,6 +91,22 @@ namespace FileBrowser.Data.Models
             {
                 return null;
             }
+        }
+
+        private static bool IsPathValid(string path, bool withFile = true)
+        {
+            try
+            {
+                Path.GetPathRoot(path);
+                Path.GetDirectoryName(path);
+                if (withFile)
+                    Path.GetFileName(path);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

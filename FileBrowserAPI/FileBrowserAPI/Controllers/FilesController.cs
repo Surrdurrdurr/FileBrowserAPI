@@ -30,7 +30,20 @@ namespace FileBrowserAPI.Controllers
         [HttpPut]
         public async Task<ActionResult> UploadFile(IFormFile file)
         {
-            await FileBrowserModel.UploadFile(file);
+            var result = await FileBrowserModel.UploadFile(file);
+            if (!result)
+                return BadRequest("Path is not valid.");
+
+            return Ok();
+        }
+
+        [HttpPut("{path}")]
+        public async Task<ActionResult> UploadFile(IFormFile file, string path)
+        {
+            var result = await FileBrowserModel.UploadFile(file, path);
+            if (!result)
+                return BadRequest("Path is not valid.");
+
             return Ok();
         }
 
