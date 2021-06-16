@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace FileBrowser.Data.Models
@@ -28,5 +29,26 @@ namespace FileBrowser.Data.Models
             }
         }
 
+        public static IEnumerable<string> GetFilteredFiles(string pattern, string path = DefaultDirectory)
+        {
+            try
+            {
+                var regex = new Regex(pattern);
+                var files = GetAllFiles(path);
+
+                var filteredFiles = new List<string>();
+
+                foreach (var file in files)
+                {
+                    if (regex.IsMatch(file))
+                        filteredFiles.Add(file);
+                }
+                return filteredFiles;
+            }
+            catch (RegexParseException)
+            {
+                return null;
+            }
+        }
     }
 }
