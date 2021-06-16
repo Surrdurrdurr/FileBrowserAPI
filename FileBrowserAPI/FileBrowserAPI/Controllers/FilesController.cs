@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FileBrowser.Data.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,10 @@ namespace FileBrowserAPI.Controllers
     [ApiController]
     public class FilesController : ControllerBase
     {
+        [HttpGet]
+        public ActionResult<IEnumerable<string>> GetAllFiles()
+        {
+            return FileBrowserModel.GetAllFiles().ToArray();
+        }
     }
 }
